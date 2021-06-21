@@ -1,0 +1,14 @@
+these detailed out steps explains session cookie mgt
+
+1.
+when i do req.session.userId = user.id , what I am doing is saving userId property on req.session object. and this session object is then saved to redis as a key:value pair. the key is generated automatically.
+
+e.g of how it is stored in redis
+sess:ajkdikjdsmnsdmnsd -> {userId:1}
+
+express-session will set a cookie on my browser: this cookie is a signed version of key that the redis stores the session object in. signed with the secret key we specified in the browser
+
+now when a user makes a request, this signed cookie that has been set on the browser is going to be sent to the server
+
+on the server, the signed key is unsigned using the same secret key we specified in the config file
+to decrypt the key which will result to sess:ajkdikjdsmnsdmnsd and using that key, the server makes a request to redis using that decrypted key to retrieve the stored value and stores it on req.session object
