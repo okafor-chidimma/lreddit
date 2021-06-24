@@ -1,0 +1,12 @@
+overwrite: true
+# this is where our schema that we are going to be sending operations to is
+schema: "http://localhost:3000/graphql"
+# where we want it to get the graphql data it will convert to TS
+documents: "src/graphql/**/*.graphql"
+generates:
+# where it will put the auto-generated TS. after we have finished running yarn gen
+  src/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-urql"

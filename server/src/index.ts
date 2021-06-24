@@ -6,6 +6,7 @@ import { buildSchema } from "type-graphql";
 import redis from "redis";
 import session from "express-session";
 import connectRedis from "connect-redis";
+import cors from "cors";
 
 //custom imports
 import { __prod__ } from "./constants";
@@ -19,6 +20,7 @@ import { MyContext } from "./utils/types";
 //     userId: number;
 //   }
 // }
+
 const main = async () => {
   //db configuration
   const orm = await MikroORM.init(config);
@@ -27,6 +29,13 @@ const main = async () => {
 
   //setup the express server
   const app = express();
+  //add cors middleware
+  app.use(
+    cors({
+      origin: ["http://localhost:3000"],//cors is going to apply on all routes. I can add more routes to this array
+      credentials: true,//just to accept credentials
+    })
+  );
   let RedisStore = connectRedis(session);
   let redisClient = redis.createClient();
   app.use(

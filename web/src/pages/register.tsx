@@ -3,16 +3,22 @@ import { Formik, Form } from "formik";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { Wrapper } from "../components/Wrapper";
+import { useRegisterUserMutation } from "../generated/graphql";
 
 interface RegisterProps {}
 
 const Register = ({}: RegisterProps) => {
+  //using the mutation hook that was generated for us
+  const [_, register] = useRegisterUserMutation();
   return (
     <Wrapper variant="small">
       <Formik
         initialValues={{ username: "", password: "" }}
-        onSubmit={(values) => {
+        onSubmit={async (values, { setErrors }) => {
           console.log(values);
+          //call the register function from the useRegisterUserMutation hook
+          const response = await register(values);
+          response.data?.register.errors;
         }}
       >
         {({ isSubmitting }) => (

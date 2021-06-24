@@ -11,6 +11,7 @@ import { UserResponse } from "../utils/custom-types/user-response-type";
 export default class UserResolver {
   @Query(() => UserResponse)
   me(@Ctx() { em, req }: MyContext) {
+    console.log("me query resolver");
     if (!req.session.userId) {
       return {
         errors: [
@@ -29,6 +30,7 @@ export default class UserResolver {
     @Arg("data") { username, password }: RegisterInputType,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
+    console.log("register resolver");
     //validate user input
     if (!username.trim()) {
       return {
@@ -79,6 +81,7 @@ export default class UserResolver {
     @Arg("data") { username, password }: RegisterInputType,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
+    console.log("login resolver");
     //retrieve the user from db
     const user = await em.findOne(User, { username: username.toLowerCase() });
     //I did not find user
