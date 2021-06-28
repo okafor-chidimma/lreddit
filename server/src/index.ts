@@ -32,8 +32,8 @@ const main = async () => {
   //add cors middleware
   app.use(
     cors({
-      origin: ["http://localhost:3000"],//cors is going to apply on all routes. I can add more routes to this array
-      credentials: true,//just to accept credentials
+      origin: ["http://localhost:3000"], //cors is going to apply on all routes. I can add more routes to this array
+      credentials: true, //just to accept credentials
     })
   );
   let RedisStore = connectRedis(session);
@@ -76,8 +76,8 @@ const main = async () => {
     context: ({ req, res }): MyContext => ({ em: orm.em, req, res }),
     //tracing: true,
   });
-  apolloServer.applyMiddleware({ app });
-  app.listen(3000, () => {
+  apolloServer.applyMiddleware({ app, cors: false });
+  app.listen(3030, () => {
     console.log("app is running");
   });
 };

@@ -1,0 +1,12 @@
+query GetCurrentlyLoggedInUser {
+  me{
+    errors{
+      field
+      message
+    }
+    user{
+      id
+      username
+    }
+  }
+}

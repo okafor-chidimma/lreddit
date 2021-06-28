@@ -1,0 +1,14 @@
+
+# this is another way of passing in input, if you want to use an object. as seen in data variable
+mutation Login($data:RegisterInputType!){
+   login(data:$data){
+      errors{
+        field
+        message
+      }
+    user{
+       id
+    username
+    }
+  }
+}

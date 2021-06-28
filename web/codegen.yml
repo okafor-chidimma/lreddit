@@ -1,6 +1,6 @@
 overwrite: true
 # this is where our schema that we are going to be sending operations to is
-schema: "http://localhost:3000/graphql"
+schema: "http://localhost:3030/graphql"
 # where we want it to get the graphql data it will convert to TS
 documents: "src/graphql/**/*.graphql"
 generates:

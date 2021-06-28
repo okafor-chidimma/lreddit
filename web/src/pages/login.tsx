@@ -5,14 +5,13 @@ import { useRouter } from "next/router";
 
 import { InputField } from "../components/InputField";
 import { Wrapper } from "../components/Wrapper";
-import { useRegisterUserMutation } from "../generated/graphql";
+import { useLoginMutation } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
 
-interface RegisterProps {}
-
-const Register: React.FC<RegisterProps> = () => {
+//passing in an empty object when we do not have props to model yet
+const Login: React.FC<{}> = () => {
   //using the mutation hook that was generated for us
-  const [_, register] = useRegisterUserMutation();
+  const [_, login] = useLoginMutation();
 
   //for routing, provided by nextjs
   const router = useRouter();
@@ -22,13 +21,14 @@ const Register: React.FC<RegisterProps> = () => {
         initialValues={{ username: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {
           console.log(values);
-          //call the register function from the useRegisterUserMutation hook
-          const response = await register(values);
-          if (response.data?.register.errors) {
+          //call the login function from the useLoginUserMutation hook
+        //   recall you told it to expect an object, so it will expect an object
+          const response = await login({ data: values });
+          if (response.data?.login.errors) {
             //this adds the error messages and styling to the individual input elements
             //setErrors accepts an object where name of the input tag is the prop name and the value is the error message
-            setErrors(toErrorMap(response.data.register.errors));
-          } else if (response.data?.register.user) {
+            setErrors(toErrorMap(response.data.login.errors));
+          } else if (response.data?.login.user) {
             router.push("/");
           }
         }}
@@ -55,7 +55,7 @@ const Register: React.FC<RegisterProps> = () => {
               isLoading={isSubmitting}
               type="submit"
             >
-              Register
+              Login
             </Button>
           </Form>
         )}
@@ -63,4 +63,4 @@ const Register: React.FC<RegisterProps> = () => {
     </Wrapper>
   );
 };
-export default Register;
+export default Login;
